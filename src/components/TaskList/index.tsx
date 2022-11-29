@@ -1,21 +1,21 @@
 import { View, Text, Image, FlatList } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styles } from "./styles";
 import CounterDisplay from "../CounterDisplay";
 import Task from "../Task";
 import ImageClipboard from "../../../assets/Clipboard.png";
 
-export default function TaskList() {
-  const [tasklist, setTasklist] = useState<string[]>([
-    "Nome da task1",
-    "Nome da task2",
-    "Nome da task3",
-  ]);
+interface Props {
+  list: string[];
+  handleTaskRemove: (item: string) => void;
+}
 
-  function handleTaskRemove(item: string) {
-    setTasklist(tasklist.filter((task) => task != item));
-    console.log("removeu!");
-  }
+export default function TaskList({ list, handleTaskRemove }: Props) {
+  const [tasklist, setTasklist] = useState<string[]>(list);
+
+  useEffect(() => {
+    setTasklist(list);
+  }, [list]);
 
   return (
     <View style={styles.container}>
