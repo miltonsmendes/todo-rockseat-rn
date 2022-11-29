@@ -30,5 +30,25 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     width: "100%",
     marginTop: 20,
+    marginBottom: 48,
+  },
+  listEmptyContainer: {
+    alignItems: "center",
+  },
+  listContainer: {
+    marginTop: 20,
+  },
+  imageStyle: {
+    marginBottom: 16,
+  },
+  listMessage: {
+    color: "#808080",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  listSubMessage: {
+    color: "#808080",
+    fontWeight: "400",
+    fontSize: 16,
   },
 });
