@@ -18,6 +18,8 @@ export const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     height: 54,
+    color: "#fff",
+    fontWeight: "700",
     backgroundColor: "#262626",
     borderRadius: 6,
     padding: 16,

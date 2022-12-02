@@ -4,44 +4,40 @@ import { styles } from "./styles";
 import CounterDisplay from "../CounterDisplay";
 import Task from "../Task";
 import ImageClipboard from "../../../assets/Clipboard.png";
+import { useCounter } from "../../hooks/useCounter";
+import { useTaskList } from "../../hooks/useTaskList";
 
-interface Props {
-  list: string[];
-  handleTaskRemove: (item: string) => void;
-}
-
-export default function TaskList({ list, handleTaskRemove }: Props) {
-  const [tasklist, setTasklist] = useState<string[]>(list);
+export default function TaskList() {
+  const { taskList } = useTaskList();
+  const { counterCreated, setCounterCreated, counterDone, handleCounterDone } =
+    useCounter();
 
   useEffect(() => {
-    setTasklist(list);
-  }, [list]);
+    setCounterCreated(taskList.length);
+    handleCounterDone();
+  }, [taskList]);
 
   return (
     <View style={styles.container}>
       <View style={styles.counterContainer}>
         <View style={styles.counterContainerRow}>
           <Text style={styles.taskCreatedText}>Criadas</Text>
-          <CounterDisplay value={1} />
+          <CounterDisplay value={counterCreated} />
         </View>
 
         <View style={styles.counterContainerRow}>
           <Text style={styles.taskDoneText}>Concluídas</Text>
-          <CounterDisplay value={1} />
+          <CounterDisplay value={counterDone} />
         </View>
       </View>
 
-      {tasklist.length ? (
+      {taskList && taskList.length ? (
         <FlatList
           style={styles.listContainer}
-          data={tasklist}
-          keyExtractor={(item) => item}
+          data={taskList}
+          keyExtractor={(item: object) => item.id}
           renderItem={({ item }) => (
-            <Task
-              taskName={item}
-              key={item}
-              onRemove={() => handleTaskRemove(item)}
-            />
+            <Task taskName={item.name} key={item.id} id={item.id} />
           )}
         />
       ) : (

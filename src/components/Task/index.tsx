@@ -4,27 +4,33 @@ import TrashIcon from "../../../assets/trash.png";
 import CheckTrue from "../../../assets/check-true.png";
 import CheckFalse from "../../../assets/check-false.png";
 import { styles } from "./styles";
+import { useTaskList } from "../../hooks/useTaskList";
 
 interface Props {
   taskName: string;
-  onRemove: () => void;
+  id: string;
 }
 
-export default function Task({ taskName, onRemove }: Props) {
+export default function Task({ taskName, id }: Props) {
+  const { removeTask, changeTaskStatus } = useTaskList();
   const [check, setCheck] = useState<boolean>(false);
   const [lineStyle, setLineStyle] = useState<{}>({ color: "#F2F2F2" });
 
-  function handleCheck() {
+  function handleCheck(id: string) {
     setCheck(!check);
-
     check
       ? setLineStyle({ color: "#F2F2F2" })
       : setLineStyle({ color: "#808080", textDecorationLine: "line-through" });
+    changeTaskStatus(id);
+  }
+
+  function onRemove() {
+    removeTask(id);
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleCheck}>
+      <TouchableOpacity onPress={() => handleCheck(id)}>
         {check ? <Image source={CheckTrue} /> : <Image source={CheckFalse} />}
       </TouchableOpacity>
       <View style={styles.textContainer}>

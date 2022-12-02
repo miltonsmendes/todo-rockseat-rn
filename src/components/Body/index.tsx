@@ -1,29 +1,21 @@
-import { View, TextInput, TouchableOpacity, Image, Alert } from "react-native";
+import { View, TextInput, TouchableOpacity, Image } from "react-native";
 import { useState } from "react";
 import TaskList from "../TaskList";
 import Plus from "../../../assets/plus.png";
 import { styles } from "./styles";
+import { useTaskList } from "../../hooks/useTaskList";
 
 export default function Body() {
+  const { addTask, removeTask } = useTaskList();
   const [taskName, setTaskName] = useState<string>();
-  const [taskList, setTaskList] = useState<string[]>([]);
 
   function handleAddButton() {
-    if (taskName === "") {
-      return;
-    }
-    if (taskList.includes(taskName)) {
-      return Alert.alert(
-        "Task já existe",
-        "Já existe uma task na lista com esse nome"
-      );
-    }
-    setTaskList((prevState) => [...prevState, taskName]);
+    taskName && addTask(taskName);
     setTaskName("");
   }
 
   function handleTaskRemove(item: string) {
-    setTaskList(taskList.filter((task) => task != item));
+    removeTask(item);
   }
 
   return (
@@ -44,7 +36,7 @@ export default function Body() {
         </TouchableOpacity>
       </View>
 
-      <TaskList list={taskList} handleTaskRemove={handleTaskRemove} />
+      <TaskList handleTaskRemove={handleTaskRemove} />
     </View>
   );
 }
